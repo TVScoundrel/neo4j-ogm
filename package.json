@@ -1,0 +1,19 @@
+{
+  "name": "neo-ogm",
+  "version": "1.0.0",
+  "description": "OGM for neo4j",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/TVScoundrel/neo4j-ogm.git"
+  },
+  "author": "Tom Van Schoor",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TVScoundrel/neo4j-ogm/issues"
+  },
+  "homepage": "https://github.com/TVScoundrel/neo4j-ogm#readme"
+}
