@@ -4,7 +4,7 @@
   "description": "OGM for neo4j",
   "main": "index.js",
   "scripts": {
-    "test": "nyc mocha test/**/*.test.js",
+    "test": "nyc mocha \"test/**/*.test.js\"",
     "test-watch": "nodemon --exec \"npm test\""
   },
   "nyc": {
@@ -39,6 +39,7 @@
   },
   "dependencies": {
     "nconf": "^0.10.0",
+    "neo4j-driver": "^1.7.2",
     "winston": "^3.2.1"
   }
 }
