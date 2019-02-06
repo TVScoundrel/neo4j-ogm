@@ -17,6 +17,7 @@ const { expect } = require('chai')
 const { srcRequire } = require('./utils')
 
 const Model = srcRequire('Model')
+const { DIRECTION_BOTH } = srcRequire('RelationshipType')
 
 describe('::Model', () => {
   const name = 'TestModel'
@@ -33,7 +34,12 @@ describe('::Model', () => {
         index: true
       }
     },
-    relationshipDefinitions: {}
+    relationshipTypes: {
+      knows: {
+        relationship: 'KNOWS',
+        direction: DIRECTION_BOTH
+      }
+    }
   }
 
   describe(':constructor', () => {
@@ -51,6 +57,7 @@ describe('::Model', () => {
       expect(model.schema()).to.eq(schema)
       expect(model.labels()).to.deep.eq(schema.labels)
       expect(model.properties().size).to.eq(3)
+      expect(model.relationshipTypes().size).to.eq(1)
     })
 
     it('should have default values', () => {

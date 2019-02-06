@@ -1,4 +1,5 @@
 const Property = require('./Property')
+const RelationshipType = require('./RelationshipType')
 
 module.exports = class Model {
   constructor(name, schema) {
@@ -39,6 +40,7 @@ module.exports = class Model {
   _parseSchema(schema) {
     this._setLabels(schema)
     this._setProperties(schema)
+    this._setRelationshipTypes(schema)
   }
 
   _setLabels(schema) {
@@ -60,7 +62,7 @@ module.exports = class Model {
 
   _addProperty(key, schema) {
     const property = new Property(key, schema)
-    this._properties.set(property)
+    this._properties.set(key, property)
 
     if (property.primary()) {
       this._primary_key = key
@@ -73,5 +75,20 @@ module.exports = class Model {
     if (property.indexed()) {
       this._indexed.push(key)
     }
+  }
+
+  _setRelationshipTypes(schema) {
+    const { relationshipTypes } = schema
+    if (relationshipTypes && typeof relationshipTypes === 'object') {
+      Object.keys(relationshipTypes).forEach(key => {
+        const value = relationshipTypes[key]
+        this._addRelationshipType(key, value)
+      })
+    }
+  }
+
+  _addRelationshipType(key, schema) {
+    const relationshipType = new RelationshipType(key, schema)
+    this._relationshipTypes.set(relationshipType)
   }
 }
