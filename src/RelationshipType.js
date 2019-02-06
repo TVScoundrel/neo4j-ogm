@@ -5,7 +5,7 @@ const DIRECTION_OUT = 'DIRECTION_OUT'
 const DIRECTION_BOTH = 'DIRECTION_BOTH'
 
 const toUpperSnake = word => {
-  return word.replace(/([A-Z])/g, b => `_${b.toLowerCase()}`).toUpperCase()
+  return word.replace(/([A-Z])/g, b => `_${b}`).toUpperCase()
 }
 
 class RelationshipType {
