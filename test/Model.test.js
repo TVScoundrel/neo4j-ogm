@@ -16,7 +16,10 @@ const { expect } = require('chai')
 
 const { srcRequire } = require('./utils')
 
+const Neo = srcRequire('Neo')
 const Model = srcRequire('Model')
+const Node = srcRequire('Node')
+
 const { DIRECTION_BOTH } = srcRequire('RelationshipType')
 
 describe('::Model', () => {
@@ -65,6 +68,23 @@ describe('::Model', () => {
       expect(model.labels()).to.deep.eq([name])
       expect(model.properties().size).to.eq(0)
       expect(model.relationshipTypes().size).to.eq(0)
+    })
+  })
+
+  describe(':create', () => {
+    let neo
+    let model
+    beforeEach(() => {
+      neo = new Neo()
+      model = neo.model(name, schema)
+    })
+
+    it('should return a Node instance', () => {
+      const node = neo.create(name, {
+        aString: 'this is a string',
+        aNumber: 14
+      })
+      expect(node).to.be.an.instanceOf(Node)
     })
   })
 })

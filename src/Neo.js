@@ -14,4 +14,14 @@ module.exports = class Neo4j {
     }
     return this.models.get(name)
   }
+
+  /**
+   *
+   * @param Model model
+   * @param Object properties
+   * @returns Node
+   */
+  create(model, properties) {
+    return this.models.get(model).create(this, properties)
+  }
 }
