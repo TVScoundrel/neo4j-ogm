@@ -2,9 +2,10 @@ module.exports = class Property {
   constructor(name, schema) {
     this._name = name
     this._setSchema(schema)
-    this._setPrimary(schema)
-    this._setIndex(schema)
-    this._setUnique(schema)
+    this._setType()
+    this._setPrimary()
+    this._setIndex()
+    this._setUnique()
   }
 
   name() {
@@ -12,7 +13,7 @@ module.exports = class Property {
   }
 
   type() {
-    return this._schema.type
+    return this._type
   }
 
   primary() {
@@ -32,6 +33,10 @@ module.exports = class Property {
     if (typeof schema === 'string') {
       this._schema = { type: schema }
     }
+  }
+
+  _setType() {
+    this._type = this._schema.type
   }
 
   _setPrimary() {

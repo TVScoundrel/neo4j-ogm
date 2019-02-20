@@ -16,6 +16,11 @@ describe('::Property', () => {
       expect(property.type()).to.eq('string')
     })
 
+    it('sets the type', () => {
+      const prop = new Property('test', { type: 'int', primary: true })
+      expect(prop.type()).to.eq('int')
+    })
+
     it('can be a primary', () => {
       const prop = new Property('test', { type: 'string', primary: true })
       expect(prop.primary()).to.be.true

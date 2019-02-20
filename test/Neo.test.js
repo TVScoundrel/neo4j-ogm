@@ -1,5 +1,7 @@
 /* eslint-env mocha */
+/* eslint-disable no-unused-expressions */
 const { expect } = require('chai')
+const sinon = require('sinon')
 const { Driver } = require('neo4j-driver/lib/v1/driver')
 
 const { srcRequire } = require('./utils')
@@ -22,9 +24,9 @@ describe('::Neo', () => {
     })
   })
 
+  const name = 'TestModel'
+  const schema = {}
   describe(':model', () => {
-    const name = 'TestModel'
-    const schema = {}
     it('should create, add and return a new model', () => {
       const model = neo.model(name, schema)
       expect(model).to.be.instanceOf(Model)
@@ -33,6 +35,16 @@ describe('::Neo', () => {
     it('should return an existing model', () => {
       const model = neo.model(name, schema)
       expect(neo.model(name)).to.eq(model)
+    })
+  })
+
+  describe(':create', () => {
+    it('should call the create method of the model', () => {
+      const stub = sinon.stub(Model.prototype, 'create').callsFake(() => 'mock')
+      neo.model(name, schema)
+      neo.create(name, {})
+      expect(stub.calledOnce).to.be.true
+      stub.restore()
     })
   })
 })
