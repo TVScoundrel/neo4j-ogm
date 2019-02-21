@@ -58,5 +58,11 @@ describe('::NodeBuilder', () => {
     it('should throw if no properties are given', () => {
       expect(() => subject.create()).to.throw('`properties` must be an object')
     })
+
+    it('should populate the node with passed-in values', () => {
+      const node = subject.create({ firstname: 'Tom', lastname: 'Van Schoor' })
+      expect(node.getProperty('firstname')).to.eq('Tom')
+      expect(node.getProperty('lastname')).to.eq('Van Schoor')
+    })
   })
 })

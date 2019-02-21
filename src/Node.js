@@ -11,6 +11,10 @@ module.exports = class Node {
     })
   }
 
+  getProperty(propertyName) {
+    return this._properties.get(propertyName)
+  }
+
   identity() {
     return this._identity
   }
