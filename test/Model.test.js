@@ -73,10 +73,9 @@ describe('::Model', () => {
 
   describe(':create', () => {
     let neo
-    let model
     beforeEach(() => {
       neo = new Neo()
-      model = neo.model(name, schema)
+      neo.model(name, schema)
     })
 
     it('should return a Node instance', () => {
