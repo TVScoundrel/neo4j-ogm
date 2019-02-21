@@ -1,4 +1,5 @@
-const Node = require('./Node')
+const NodeBuilder = require('./NodeBuilder')
+
 const Property = require('./Property')
 const RelationshipType = require('./RelationshipType')
 
@@ -46,7 +47,8 @@ module.exports = class Model {
    */
   create(neo, properties) {
     // build a node for this model with given properties
-    return new Node()
+    const node = new NodeBuilder(neo, this).create(properties)
+    return node
   }
 
   _parseSchema(schema) {

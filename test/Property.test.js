@@ -21,6 +21,16 @@ describe('::Property', () => {
       expect(prop.type()).to.eq('int')
     })
 
+    it('sets the default', () => {
+      const prop = new Property('test', { type: 'int', default: 0 })
+      expect(prop.default()).to.eq(0)
+    })
+
+    it('has undefined default if not passed', () => {
+      const prop = new Property('test', { type: 'int' })
+      expect(prop.default()).to.be.undefined
+    })
+
     it('can be a primary', () => {
       const prop = new Property('test', { type: 'string', primary: true })
       expect(prop.primary()).to.be.true

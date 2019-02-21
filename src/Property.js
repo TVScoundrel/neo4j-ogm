@@ -6,6 +6,7 @@ module.exports = class Property {
     this._setPrimary()
     this._setIndex()
     this._setUnique()
+    this._setDefault()
   }
 
   name() {
@@ -14,6 +15,10 @@ module.exports = class Property {
 
   type() {
     return this._type
+  }
+
+  default() {
+    return this._default
   }
 
   primary() {
@@ -49,5 +54,13 @@ module.exports = class Property {
 
   _setUnique() {
     this._unique = 'unique' in this._schema ? this._schema.unique : false
+  }
+
+  _setDefault() {
+    this._default = 'default' in this._schema ? this._schema.default : undefined
+  }
+
+  setDefault(defaultValue) {
+    this._default = defaultValue
   }
 }
