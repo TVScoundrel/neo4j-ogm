@@ -1,5 +1,7 @@
 const uuid = require('uuid')
+
 const Node = require('./Node')
+const convertToNeo4jDataType = require('./service/convertToNeo4jDataType')
 
 module.exports = class NodeBuilder {
   constructor(neo, model) {
@@ -34,6 +36,13 @@ module.exports = class NodeBuilder {
           typeof config.default() === 'function'
             ? config.default()()
             : config.default()
+      }
+
+      if (seededProps[propName]) {
+        seededProps[propName] = convertToNeo4jDataType(
+          config,
+          seededProps[propName]
+        )
       }
     })
 
