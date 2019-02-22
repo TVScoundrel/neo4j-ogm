@@ -161,4 +161,66 @@ describe('convertToNeo4jDataType.js', () => {
     )
     expect(localtime).to.eq('something')
   })
+
+  it('should convert a WGS_84_2D point', () => {
+    const point = convertToNeo4jDataType(
+      new Property('point', { type: 'point' }),
+      {
+        longitude: 24.094915,
+        latitude: 18.09495
+      }
+    )
+    expect(point.srid).to.eq(4326)
+  })
+
+  it('should convert a WGS_84_3D point', () => {
+    const point = convertToNeo4jDataType(
+      new Property('point', { type: 'point' }),
+      {
+        longitude: 24.094915,
+        latitude: 18.09495,
+        height: 15.12345
+      }
+    )
+    expect(point.srid).to.eq(4979)
+  })
+
+  it('should convert a CARTESIAN_2D point', () => {
+    const point = convertToNeo4jDataType(
+      new Property('point', { type: 'point' }),
+      {
+        x: 24.094915,
+        y: 18.09495
+      }
+    )
+    expect(point.srid).to.eq(7203)
+  })
+
+  it('should convert a CARTESIAN_3D point', () => {
+    const point = convertToNeo4jDataType(
+      new Property('point', { type: 'point' }),
+      {
+        x: 24.094915,
+        y: 18.09495,
+        z: 15.12345
+      }
+    )
+    expect(point.srid).to.eq(9157)
+  })
+
+  it('should not convert an invalid CARTESIAN_3D point', () => {
+    const point = convertToNeo4jDataType(
+      new Property('point', { type: 'point' }),
+      { x: 24.094915, z: 15.12345 }
+    )
+    expect(point).to.deep.eq({ x: 24.094915, z: 15.12345 })
+  })
+
+  it('should not convert an invalid point', () => {
+    const point = convertToNeo4jDataType(
+      new Property('point', { type: 'point' }),
+      'something'
+    )
+    expect(point).to.eq('something')
+  })
 })

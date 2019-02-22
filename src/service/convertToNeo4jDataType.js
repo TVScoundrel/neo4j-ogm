@@ -1,6 +1,12 @@
 const { v1: neo4j } = require('neo4j-driver')
 
 const temporal = ['date', 'datetime', 'time', 'localdatetime', 'localtime']
+const point = {
+  WGS_84_2D: 4326,
+  WGS_84_3D: 4979,
+  CARTESIAN_2D: 7203,
+  CARTESIAN_3D: 9157
+}
 
 /**
  * Convert a value to it's neo4j native type
@@ -56,6 +62,51 @@ module.exports = function convertToNeo4jDataType(config, valueToConvert) {
       return value instanceof Date
         ? neo4j.types.LocalTime.fromStandardDate(value)
         : value
+
+    // https://neo4j.com/docs/cypher-manual/current/functions/spatial/
+    case 'point':
+      // 4 possible cases: WGS 84 2D and 3D - Cartesian 2D and 3D
+      // Cartesian relies on x, y and z values so if x is not a number WGS 84 is assumed
+      if (typeof value.x !== 'number') {
+        if (
+          typeof value.height !== 'number' &&
+          typeof value.longitude === 'number' &&
+          typeof value.latitude === 'number'
+        ) {
+          return new neo4j.types.Point(
+            point.WGS_84_2D,
+            value.longitude,
+            value.latitude
+          )
+        }
+
+        if (
+          typeof value.height === 'number' &&
+          typeof value.longitude === 'number' &&
+          typeof value.latitude === 'number'
+        ) {
+          return new neo4j.types.Point(
+            point.WGS_84_3D,
+            value.longitude,
+            value.latitude,
+            value.height
+          )
+        }
+      } else {
+        if (typeof value.z !== 'number' && typeof value.y === 'number') {
+          return new neo4j.types.Point(point.CARTESIAN_2D, value.x, value.y)
+        }
+
+        if (typeof value.z === 'number' && typeof value.y === 'number') {
+          return new neo4j.types.Point(
+            point.CARTESIAN_3D,
+            value.x,
+            value.y,
+            value.z
+          )
+        }
+      }
+      return value
 
     default:
       return value
