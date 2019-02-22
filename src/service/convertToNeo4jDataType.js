@@ -11,6 +11,7 @@ const temporal = ['date', 'datetime', 'time', 'localdatetime', 'localtime']
 module.exports = function convertToNeo4jDataType(config, valueToConvert) {
   const type = config.type().toLowerCase()
   let value = valueToConvert
+
   // Convert temporal to a native date?
   if (temporal.indexOf(type) > -1 && typeof value === 'number') {
     value = new Date(value)
